@@ -71,7 +71,7 @@ if __name__ == "__main__":
                   except FileExistsError:
                       pass
                 else:
-                  shutil.copy(jpg_files[idx].resolve(), jpg_file)
+                  shutil.move(jpg_files[idx].resolve(), jpg_file)
 
 
 
@@ -83,4 +83,4 @@ if __name__ == "__main__":
                   except FileExistsError:
                       pass
                 else:
-                  shutil.copy(str(txt_files[idx].resolve()), str(txt_file))
+                  shutil.move(str(txt_files[idx].resolve()), str(txt_file))
