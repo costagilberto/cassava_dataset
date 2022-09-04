@@ -15,9 +15,9 @@ TXT_ANNOTATION_DIR = Path("annotation_txt")
 OUT_DIR = Path("cassava_dataset")
 SYMLINK = False # if not symlink, copy files
 
-TRAIN_SET_SIZE = 2400
-VAL_SET_SIZE = 300
-TEST_SET_SIZE = 300
+TRAIN_SET_SIZE = 400
+VAL_SET_SIZE = 50
+TEST_SET_SIZE = 50
 N = TRAIN_SET_SIZE + TEST_SET_SIZE + VAL_SET_SIZE
 
 RNG_SEED = 333
