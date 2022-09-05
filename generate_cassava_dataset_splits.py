@@ -55,7 +55,7 @@ if __name__ == "__main__":
     TOP_DIR.mkdir(parents=True, exist_ok=True)
     for (cat, idxs) in zip(['train', 'val', 'test'], [train_idx, val_idx, test_idx]):
         TOP_DIR.joinpath('images', cat).mkdir(parents=True, exist_ok=True)
-        #TOP_DIR.joinpath('labels', cat).mkdir(parents=True, exist_ok=True)
+        TOP_DIR.joinpath('labels', cat).mkdir(parents=True, exist_ok=True)
         
         # Symlink Images & Labels
         with open(TOP_DIR.joinpath(f"{cat}.txt"), "w+") as f:
