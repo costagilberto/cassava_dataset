@@ -1,15 +1,19 @@
 from pathlib import Path
 from xml.etree import ElementTree
+import shutil
 
 import numpy as np
 from numpy.random import default_rng
 
+TOP_LEVEL = Path(__file__).parent.resolve()
+
 DIRS = ["./low_abundance", "./moderate_abundance", "./super_abundance"]
 
 IMG_DIR = Path("images")
-ANNOTATION_DIR = Path("annotation")
 TXT_ANNOTATION_DIR = Path("annotation_txt")
+
 OUT_DIR = Path("cassava_dataset")
+SYMLINK = False # if not symlink, copy files
 
 TRAIN_SET_SIZE = 2400
 VAL_SET_SIZE = 300
@@ -19,7 +23,7 @@ N = TRAIN_SET_SIZE + TEST_SET_SIZE + VAL_SET_SIZE
 RNG_SEED = 333
 
 if __name__ == "__main__":
-    DIRS = [Path(set) for set in DIRS]
+    DIRS = [TOP_LEVEL.joinpath(set) for set in DIRS]
 
     txt_files = []
     jpg_files = []
@@ -47,23 +51,36 @@ if __name__ == "__main__":
     test_idx = set_idx
     
     # Dataset folder structure
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    TOP_DIR = TOP_LEVEL.joinpath(OUT_DIR)
+    TOP_DIR.mkdir(parents=True, exist_ok=True)
     for (cat, idxs) in zip(['train', 'val', 'test'], [train_idx, val_idx, test_idx]):
-        OUT_DIR.joinpath('images', cat).mkdir(parents=True, exist_ok=True)
-        OUT_DIR.joinpath('labels', cat).mkdir(parents=True, exist_ok=True)
+        TOP_DIR.joinpath('images', cat).mkdir(parents=True, exist_ok=True)
+        #TOP_DIR.joinpath('labels', cat).mkdir(parents=True, exist_ok=True)
         
         # Symlink Images & Labels
-        with open(OUT_DIR.joinpath(f"{cat}.txt"), "w+") as f:
+        with open(TOP_DIR.joinpath(f"{cat}.txt"), "w+") as f:
             for idx in idxs:
-                jpg_file = OUT_DIR.joinpath('images', cat, jpg_files[idx].name)
-                f.write(f"{jpg_file}\n")
-                try:
-                    jpg_file.symlink_to(jpg_files[idx].resolve())
-                except FileExistsError:
-                    pass
+                jpg_dataset_file = OUT_DIR.joinpath('images', cat, jpg_files[idx].name)
+                f.write(f"{jpg_dataset_file}\n")
+                
+                jpg_file = TOP_DIR.joinpath('images', cat, jpg_files[idx].name)
+                if SYMLINK:
+                  try:
+                      jpg_file.symlink_to(jpg_files[idx].resolve())
+                      # print(f'{jpg_file} -> {jpg_files[idx].resolve()}')
+                  except FileExistsError:
+                      pass
+                else:
+                  shutil.move(jpg_files[idx].resolve(), jpg_file)
 
-                txt_file = txt_files[idx].name
-                try:
-                    OUT_DIR.joinpath('labels', cat, txt_file).symlink_to(txt_files[idx].resolve())
-                except FileExistsError:
-                    pass
+
+
+                txt_file = TOP_DIR.joinpath('labels', cat, txt_files[idx].name)
+                if SYMLINK:
+                  try:
+                      txt_file.symlink_to(txt_files[idx].resolve())
+                      # print(f'{txt_file} -> {txt_files[idx].resolve()}')
+                  except FileExistsError:
+                      pass
+                else:
+                  shutil.move(str(txt_files[idx].resolve()), str(txt_file))
