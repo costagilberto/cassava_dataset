@@ -16,7 +16,7 @@ TXT_ANNOTATION_DIR = Path("labels")
 OUT_DIR = Path("cassava_dataset")
 SYMLINK = False # if not symlink, copy files
 
-DATA_SET_SIZE = 1000
+DATA_SET_SIZE = 3735688
 TRAIN_SET_SIZE = DATA_SET_SIZE*8/10
 VAL_SET_SIZE = DATA_SET_SIZE/10
 TEST_SET_SIZE = DATA_SET_SIZE/10
