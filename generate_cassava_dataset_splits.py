@@ -11,7 +11,7 @@ TOP_LEVEL = Path(__file__).parent.resolve()
 DIRS = ["./low_abundance"]
 
 IMG_DIR = Path("images")
-TXT_ANNOTATION_DIR = Path("annotation_txt")
+TXT_ANNOTATION_DIR = Path("labels")
 
 OUT_DIR = Path("cassava_dataset")
 SYMLINK = False # if not symlink, copy files
