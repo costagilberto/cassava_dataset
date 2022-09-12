@@ -16,11 +16,11 @@ TXT_ANNOTATION_DIR = Path("labels")
 OUT_DIR = Path("cassava_dataset")
 SYMLINK = False # if not symlink, copy files
 
-DATA_SET_SIZE = 3735688
-TRAIN_SET_SIZE = DATA_SET_SIZE*8/10
-VAL_SET_SIZE = DATA_SET_SIZE/10
-TEST_SET_SIZE = DATA_SET_SIZE/10
-N = TRAIN_SET_SIZE + TEST_SET_SIZE + VAL_SET_SIZE
+#DATA_SET_SIZE = 373560
+#TRAIN_SET_SIZE = int(DATA_SET_SIZE*8/10)
+#VAL_SET_SIZE = int(DATA_SET_SIZE/10)
+#TEST_SET_SIZE = int(DATA_SET_SIZE/10)
+#N = TRAIN_SET_SIZE + TEST_SET_SIZE + VAL_SET_SIZE
 
 RNG_SEED = 333
 
@@ -35,6 +35,12 @@ if __name__ == "__main__":
         jpg_files += list(dir.glob(str(IMG_DIR / "*.jpg")))
         txt_files += list(dir.glob(str(TXT_ANNOTATION_DIR / "*.txt")))
 
+    DATA_SET_SIZE = (len(set([p.stem for p in txt_files])))
+    TRAIN_SET_SIZE = int(DATA_SET_SIZE*8/10)
+    VAL_SET_SIZE = int(DATA_SET_SIZE/10)
+    TEST_SET_SIZE = int(DATA_SET_SIZE/10)
+    N = TRAIN_SET_SIZE + TEST_SET_SIZE + VAL_SET_SIZE
+    
     # Assert for missing files
     diff_files = set([p.stem for p in txt_files]) - set([p.stem for p in jpg_files])
     assert (
