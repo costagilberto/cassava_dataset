@@ -7,7 +7,8 @@ from numpy.random import default_rng
 
 TOP_LEVEL = Path(__file__).parent.resolve()
 
-DIRS = ["./low_abundance", "./moderate_abundance", "./super_abundance"]
+#DIRS = ["./low_abundance", "./moderate_abundance", "./super_abundance"]
+DIRS = ["./low_abundance"]
 
 IMG_DIR = Path("images")
 TXT_ANNOTATION_DIR = Path("annotation_txt")
