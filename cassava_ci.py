@@ -10,14 +10,13 @@ from utils import check_bbox, get_slice_bboxes, img2label_paths
 
 DATASET_DIR = Path(".").parent
 DATASET_DIRS = [
-    #*map(DATASET_DIR.joinpath, ["low_abundance", "moderate_abundance", "super_abundance"])
-    *map(DATASET_DIR.joinpath, ["low_abundance"])
+    *map(DATASET_DIR.joinpath, ["low_abundance", "moderate_abundance", "super_abundance"])
 ]
 
 OUT_DIR = DATASET_DIR.joinpath("CI")
 
 IMG_DIRS = [set / "images" for set in DATASET_DIRS]
-TXT_ANNOTATION_DIR = [set / "annotation_txt" for set in DATASET_DIRS]
+TXT_ANNOTATION_DIR = [set / "labels" for set in DATASET_DIRS]
 XML_ANNOTATION_DIR = [set / "annotation" for set in DATASET_DIRS]
 
 SLICE_HEIGHT = 128
@@ -53,23 +52,19 @@ def process_single_img(file, label):
     composed_slices = [A.Compose([A.Crop(*slice)], bbox_params) for slice in slices]  # type: ignore
     tf_slices = map(lambda x: x(image=img, bboxes=l[:, 1:], labels=l[:, 0]), composed_slices)
 
-    save_img=False
     # Save to Output
     out_p = OUT_DIR / file.parent.relative_to(DATASET_DIR)
     for n, tf in enumerate(tf_slices):
+        # Save image
         out_file = out_p / f"{file.stem}_{n}.jpg"
+        cv2.imwrite(str(out_file), tf["image"])
+
         # Save transformed labels
         with open(img2label_paths(out_file), "w+") as lb:
             if tf["bboxes"]:
                 for obj in tf["bboxes"]:
                     check_bbox(obj, xywh=True)
-                    line = f"0 {obj[0]:.6f} {obj[1]:.6f} {obj[2]:.6f} {obj[3]:.6f}\n"
-                    lb.write(line)
-                    save_img=True
-        # Save image
-        if save_img:
-            cv2.imwrite(str(out_file), tf["image"])
-            print(out_file)
+                    lb.write(f"0 {obj[0]:.6f} {obj[1]:.6f} {obj[2]:.6f} {obj[3]:.6f}\n")
 
 
 if __name__ == "__main__":
