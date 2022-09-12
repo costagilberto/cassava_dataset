@@ -67,7 +67,7 @@ def img2label_paths(img_path, check=False):
     parts = list(img_path.parts)
     for n, part in enumerate(reversed(parts)):
         if part == "images":
-            parts[-(n + 1)] = "labels"
+            parts[-(n + 1)] = "annotation_txt"
             break
     parts[-1] = f"{img_path.stem}.txt"
 
