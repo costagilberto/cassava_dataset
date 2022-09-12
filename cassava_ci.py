@@ -66,7 +66,7 @@ def process_single_img(file, label):
                 for obj in tf["bboxes"]:
                     check_bbox(obj, xywh=True)
                     line = f"0 {obj[0]:.6f} {obj[1]:.6f} {obj[2]:.6f} {obj[3]:.6f}\n"
-                    print line
+                    print(line)
                     lb.write(line)
 
 
