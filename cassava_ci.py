@@ -56,9 +56,6 @@ def process_single_img(file, label):
     # Save to Output
     out_p = OUT_DIR / file.parent.relative_to(DATASET_DIR)
     for n, tf in enumerate(tf_slices):
-        # Save image
-        out_file = out_p / f"{file.stem}_{n}.jpg"
-        cv2.imwrite(str(out_file), tf["image"])
 
         # Save transformed labels
         with open(img2label_paths(out_file), "w+") as lb:
@@ -66,6 +63,10 @@ def process_single_img(file, label):
                 for obj in tf["bboxes"]:
                     check_bbox(obj, xywh=True)
                     lb.write(f"0 {obj[0]:.6f} {obj[1]:.6f} {obj[2]:.6f} {obj[3]:.6f}\n")
+                    
+                    # Save image
+                    out_file = out_p / f"{file.stem}_{n}.jpg"
+                    cv2.imwrite(str(out_file), tf["image"])
 
 
 if __name__ == "__main__":
