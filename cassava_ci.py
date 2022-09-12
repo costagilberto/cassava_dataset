@@ -10,7 +10,8 @@ from utils import check_bbox, get_slice_bboxes, img2label_paths
 
 DATASET_DIR = Path(".").parent
 DATASET_DIRS = [
-    *map(DATASET_DIR.joinpath, ["low_abundance", "moderate_abundance", "super_abundance"])
+    #*map(DATASET_DIR.joinpath, ["low_abundance", "moderate_abundance", "super_abundance"])
+    *map(DATASET_DIR.joinpath, ["low_abundance"])
 ]
 
 OUT_DIR = DATASET_DIR.joinpath("CI")
