@@ -80,18 +80,22 @@ def img2label_paths(img_path, check=False):
 def check_bbox(bbox: Sequence, xywh=False) -> None:
     if xywh:
         x, y, w, h = bbox
-        w_half, h_half = w / 2, h / 2
+        w_half, h_half = abs(w) / 2, abs(h) / 2
         x_min = x - w_half
         y_min = y - h_half
         x_max = x_min + w
         y_max = y_min + h
+        if x_min<0:
+          x_min = 0
+        if y_min<0:
+          y_min = 0
         bbox = [x_min, y_min, x_max, y_max]
 
     """Check if bbox boundaries are in range 0, 1 and minimums are lesser then maximums"""
     for name, value in zip(["x_min", "y_min", "x_max", "y_max"], bbox[:4]):
         if not 0 <= value <= 1 and not np.isclose(value, 0) and not np.isclose(value, 1):
             raise ValueError(
-                f"Expected {name} for bbox {bbox} " f"to be in the range [0.0, 1.0], got {value}."
+                f"Aqui! Expected {name} for bbox {bbox} " f"to be in the range [0.0, 1.0], got {value}."
             )
     x_min, y_min, x_max, y_max = bbox[:4]
     if x_max <= x_min:
