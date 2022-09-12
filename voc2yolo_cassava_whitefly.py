@@ -9,7 +9,7 @@ CLASSES = ["whitefly"]
 
 IMG_DIR = Path("images")
 ANNOTATION_DIR = Path("annotation")
-DEST_ANNOTATION_DIR = Path("annotation_txt")
+DEST_ANNOTATION_DIR = Path("labels")
 
 
 def abs2frac_bndbox(size, box):
