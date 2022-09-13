@@ -1,4 +1,4 @@
 classes=1
 train = cassava_dataset/train.txt
 names = cassava_dataset/obj.names
-backup = cassava_dataset/outputs
+backup = /content/p2/Disciplinas/Cibernetica/projeto2/yolo_v4/
