@@ -3,8 +3,7 @@ from xml.etree import ElementTree
 
 TOP_LEVEL = Path(__file__).parent.resolve()
 
-#DIRS = ["./low_abundance", "./moderate_abundance", "./super_abundance"]
-DIRS = ["./low_abundance"]
+DIRS = ["./low_abundance", "./moderate_abundance", "./super_abundance"]
 CLASSES = ["whitefly"]
 
 IMG_DIR = Path("images")
